@@ -1,28 +1,30 @@
 pipeline {
     agent any  
-
-    stages {
-        stage('Step 1: Checkout') {
+   
+    tools {
+        jdk 'jdk'
+        maven 'maven'
+    }
+    
+   stages {
+        stage('Check Tools') {
             steps {
-                echo 'Step 1: Checking out the code...'
+                echo "Testing Jenkins tool setup..."
+                sh 'java -version'
+                sh 'mvn -v'
             }
         }
 
-        stage('Step 2: Build') {
+        stage('Build') {
             steps {
-                echo 'Step 2: Building the project...'
+                echo "Building Spring Boot project..."
+                sh 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Step 3: Test') {
+        stage('Success') {
             steps {
-                echo 'Step 3: Running tests...'
-            }
-        }
-
-        stage('Step 4: Deploy') {
-            steps {
-                echo 'Step 4: Deploying the project...'
+                echo "✅ Build completed successfully!"
             }
         }
     }
@@ -33,3 +35,5 @@ pipeline {
         }
     }
 }
+
+   
